@@ -6,20 +6,20 @@ import InterestsModel from '../models/InterestsModel.js';
 const jsonParser = bodyParser.json();
 const interestsRouter = express.Router();
 
-const mongoUri = "mongodb://localhost:27017";
+const mongoUri = 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(mongoUri);
 let database;
 let interestCollection;
 
-interestsRouter.post("/insertInterests", jsonParser, async (request, response) => {
+interestsRouter.post('/insertInterests', jsonParser, async (request, response) => {
     try {
         await mongoClient.connect();
-        database = mongoClient.db("dunphyDatabase");
-        interestCollection = database.collection("interestsCollection");
+        database = mongoClient.db('dunphyDatabase');
+        interestCollection = database.collection('interestsCollection');
         const data = new InterestsModel(request.body);
         interestCollection.insertOne(data, (error, result) => {
             if(error) {
-                console.log("Something Went Wrong");
+                console.log('Something Went Wrong');
             }
             response.send({result: result});
             mongoClient.close();
@@ -30,11 +30,11 @@ interestsRouter.post("/insertInterests", jsonParser, async (request, response) =
     }
 });
 
-interestsRouter.get("/insertAllInterests", jsonParser, async (request, response) => {
+interestsRouter.get('/insertAllInterests', jsonParser, async (request, response) => {
     try {
         await mongoClient.connect();
-        database = mongoClient.db("dunphyDatabase");
-        interestCollection = database.collection("interestsCollection");
+        database = mongoClient.db('dunphyDatabase');
+        interestCollection = database.collection('interestsCollection');
         const data = [
             new InterestsModel({_id: 'python', interestName: 'Python'}),
             new InterestsModel({_id: 'js', interestName: 'JavaScript'}),
@@ -62,7 +62,7 @@ interestsRouter.get("/insertAllInterests", jsonParser, async (request, response)
         ];
         interestCollection.insertMany(data, (error, result) => {
             if(error) {
-                console.log("Something Went Wrong");
+                console.log('Something Went Wrong');
             }
             response.send({result: result});
             mongoClient.close();
@@ -73,32 +73,32 @@ interestsRouter.get("/insertAllInterests", jsonParser, async (request, response)
     }
 });
 
-interestsRouter.get("/getInterests", jsonParser, async (request, response) => {
+interestsRouter.get('/getInterests', jsonParser, async (request, response) => {
     try {
         await mongoClient.connect();
-        database = mongoClient.db("dunphyDatabase");
-        interestCollection = database.collection("interestsCollection");
+        database = mongoClient.db('dunphyDatabase');
+        interestCollection = database.collection('interestsCollection');
         const result = await interestCollection.find({}).toArray();
         response.send({result: result});
     }
     catch(error) {
         console.log(error)
-        response.send("Something Went Wrong");
+        response.send('Something Went Wrong');
     }
 });
 
-interestsRouter.get("/getInterestsById", jsonParser, async (request, response) => {
+interestsRouter.get('/getInterestsById', jsonParser, async (request, response) => {
     try {
         await mongoClient.connect();
-        database = mongoClient.db("dunphyDatabase");
-        interestCollection = database.collection("interestsCollection");
+        database = mongoClient.db('dunphyDatabase');
+        interestCollection = database.collection('interestsCollection');
         const query = {_id: request.query.id}
         const result = await interestCollection.findOne(query)
         response.send({result: result});
     }
     catch(error) {
         console.log(error)
-        response.send("Something Went Wrong");
+        response.send('Something Went Wrong');
     }
 });
 
