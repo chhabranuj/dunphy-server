@@ -91,7 +91,7 @@ userRouter.get('/checkFriends', jsonParser, async (request, response) => {
             }
             for(let i of userData.interests) {
                 if(item.interests.includes(i)) {
-                    friends.push(item);
+                    friends.push({_id: item._id, name: item.name});
                     break;
                 }
             }
